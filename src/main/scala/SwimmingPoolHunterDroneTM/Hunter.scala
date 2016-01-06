@@ -235,6 +235,8 @@ object Hunter {
     return 0
   }
 
+  def getAllResidentialAreaInARange(coordX: Double, coordY: Double, range: Int): List[Int] = ???
+
   object Direction extends Enumeration {
     type Direction = Value
     val UP, DOWN, LEFT, RIGHT = Value
