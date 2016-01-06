@@ -244,32 +244,37 @@ object Hunter {
     range match {
       case 0 => Set()
       case 1 => {
-        Set(getAdjacent(originId, Direction.UP),
-          getAdjacent(originId, Direction.DOWN),
-          getAdjacent(originId, Direction.LEFT),
-          getAdjacent(originId, Direction.RIGHT),
-          getAdjacent(getAdjacent(originId, Direction.UP), Direction.RIGHT),
-          getAdjacent(getAdjacent(originId, Direction.DOWN), Direction.LEFT),
-          getAdjacent(getAdjacent(originId, Direction.LEFT), Direction.UP),
-          getAdjacent(getAdjacent(originId, Direction.RIGHT), Direction.DOWN))
+        Set(getAdjacentByRange(originId, Direction.UP, range),
+          getAdjacentByRange(originId, Direction.DOWN, range),
+          getAdjacentByRange(originId, Direction.LEFT, range),
+          getAdjacentByRange(originId, Direction.RIGHT, range),
+
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.RIGHT, range),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.LEFT, range),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range),Direction.UP, range),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range))
       }
       case 2 => {
         Set(getAdjacentByRange(originId, Direction.UP, range),
           getAdjacentByRange(originId, Direction.DOWN, range),
           getAdjacentByRange(originId, Direction.LEFT, range),
           getAdjacentByRange(originId, Direction.RIGHT, range),
-          getAdjacent(getAdjacentByRange(originId, Direction.UP, range), Direction.RIGHT),
-          getAdjacent(getAdjacentByRange(originId, Direction.UP, range), Direction.LEFT),
-          getAdjacent(getAdjacentByRange(originId, Direction.DOWN, range), Direction.LEFT),
-          getAdjacent(getAdjacentByRange(originId, Direction.DOWN, range), Direction.RIGHT),
-          getAdjacent(getAdjacentByRange(originId, Direction.LEFT, range),Direction.UP),
-          getAdjacent(getAdjacentByRange(originId, Direction.LEFT, range), Direction.DOWN),
-          getAdjacent(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP),
-          getAdjacent(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN),
+
           getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.UP, range),
           getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range),  Direction.DOWN, range),
           getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP, range),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range))
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range),
+
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.RIGHT, range - 1),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.LEFT, range - 1),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range),Direction.UP, range - 1),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range - 1),
+
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.LEFT, range - 1),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.RIGHT, range - 1),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.DOWN, range - 1),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP, range - 1)
+        )
       }
     }
   }
