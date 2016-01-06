@@ -254,24 +254,31 @@ object Hunter {
           getAdjacent(getAdjacent(originId, Direction.RIGHT), Direction.DOWN))
       }
       case 2 => {
-        Set(getAdjacent(getAdjacent(originId, Direction.UP), Direction.UP),
-          getAdjacent(getAdjacent(originId, Direction.DOWN), Direction.DOWN),
-          getAdjacent(getAdjacent(originId, Direction.LEFT), Direction.LEFT),
-          getAdjacent(getAdjacent(originId, Direction.RIGHT), Direction.RIGHT),
-          getAdjacent(getAdjacent(getAdjacent(originId, Direction.UP), Direction.UP), Direction.RIGHT),
-          getAdjacent(getAdjacent(getAdjacent(originId, Direction.UP), Direction.UP), Direction.LEFT),
-          getAdjacent(getAdjacent(getAdjacent(originId, Direction.DOWN), Direction.DOWN), Direction.LEFT),
-          getAdjacent(getAdjacent(getAdjacent(originId, Direction.DOWN), Direction.DOWN), Direction.RIGHT),
-          getAdjacent(getAdjacent(getAdjacent(originId, Direction.LEFT), Direction.LEFT), Direction.UP),
-          getAdjacent(getAdjacent(getAdjacent(originId, Direction.RIGHT), Direction.RIGHT), Direction.UP),
-          getAdjacent(getAdjacent(getAdjacent(originId, Direction.LEFT), Direction.LEFT), Direction.DOWN),
-          getAdjacent(getAdjacent(getAdjacent(originId, Direction.RIGHT), Direction.RIGHT), Direction.DOWN),
-          getAdjacent(getAdjacent(getAdjacent(getAdjacent(originId, Direction.LEFT), Direction.LEFT), Direction.UP), Direction.UP),
-          getAdjacent(getAdjacent(getAdjacent(getAdjacent(originId, Direction.RIGHT), Direction.RIGHT), Direction.UP), Direction.UP),
-          getAdjacent(getAdjacent(getAdjacent(getAdjacent(originId, Direction.LEFT), Direction.LEFT), Direction.DOWN), Direction.DOWN),
-          getAdjacent(getAdjacent(getAdjacent(getAdjacent(originId, Direction.RIGHT), Direction.RIGHT), Direction.DOWN), Direction.DOWN))
+        Set(getAdjacentByRange(originId, Direction.UP, range),
+          getAdjacentByRange(originId, Direction.DOWN, range),
+          getAdjacentByRange(originId, Direction.LEFT, range),
+          getAdjacentByRange(originId, Direction.RIGHT, range),
+          getAdjacent(getAdjacentByRange(originId, Direction.UP, range), Direction.RIGHT),
+          getAdjacent(getAdjacentByRange(originId, Direction.UP, range), Direction.LEFT),
+          getAdjacent(getAdjacentByRange(originId, Direction.DOWN, range), Direction.LEFT),
+          getAdjacent(getAdjacentByRange(originId, Direction.DOWN, range), Direction.RIGHT),
+          getAdjacent(getAdjacentByRange(originId, Direction.LEFT, range),Direction.UP),
+          getAdjacent(getAdjacentByRange(originId, Direction.LEFT, range), Direction.DOWN),
+          getAdjacent(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP),
+          getAdjacent(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.UP, range),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range),  Direction.DOWN, range),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP, range),
+          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range))
       }
     }
+  }
+
+  def getAdjacentByRange(originId: Int, direction: Direction, range: Int): Int = {
+    val adjacent: Int = getAdjacent(originId, direction)
+    if (range == 1) return adjacent
+    val rangeDown = range - 1
+    return getAdjacentByRange(adjacent, direction, rangeDown)
   }
 
   object Direction extends Enumeration {
