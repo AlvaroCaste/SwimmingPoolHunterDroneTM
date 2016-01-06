@@ -235,7 +235,7 @@ object Hunter {
     return 0
   }
 
-  def getAllResidentialAreaInARange(coordX: Double, coordY: Double, range: Int): List[Int] = ???
+  def getAllResidentialAreaInARange(coordX: Double, coordY: Double, range: Int): List[Int] = List()
 
   object Direction extends Enumeration {
     type Direction = Value
