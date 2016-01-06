@@ -28,6 +28,12 @@ class HunterTest extends FlatSpec with ShouldMatchers {
     Set(1, 2, 3, 4, 5, 10, 15, 20, 25, 24, 23, 22, 21, 16, 11, 6)
   }
 
+  it should "have 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46," +
+    " 47, 48, 49 ids when coords are 28.56889, 45.511107 and range is 3" in {
+    Hunter.getAllResidentialAreaInARange(coordXId13, coordYId13, 3) shouldBe
+      Set(26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49)
+  }
+
   "Adjacents of 13" should "be 8, 14, 18, 12 when range is 1" in {
     val originId = 13
     Hunter.getAdjacentByRange(originId, Direction.UP, 1) shouldBe 8
