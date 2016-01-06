@@ -243,32 +243,8 @@ object Hunter {
     if (range == 0) return Set()
     val originId = getResidentialAreaId(coordX, coordY)
     val adjacents: Set[Int] = Direction.values.map(getAdjacentByRange(originId, _, range)).toSet
-    range match {
-      case 1 => {
-        adjacents ++
-        Set(getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.RIGHT, range),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.LEFT, range),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range),Direction.UP, range),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range))
-      }
-      case 2 => {
-        adjacents ++
-          Set(getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.UP, range),
-            getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.DOWN, range),
-            getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP, range),
-            getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range),
-
-            getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.RIGHT, range - 1),
-            getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.LEFT, range - 1),
-            getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.UP, range - 1),
-            getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range - 1),
-
-            getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.LEFT, range - 1),
-            getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.RIGHT, range - 1),
-            getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.DOWN, range - 1),
-            getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP, range - 1))
-      }
-    }
+    val otherAdjacents: Set[Int] = getOtherAdjacents(originId, range, range)
+    adjacents ++ otherAdjacents
   }
 
   def getAdjacentByRange(originId: Int, direction: Direction, range: Int): Int = {
@@ -276,6 +252,20 @@ object Hunter {
     if (range == 1) return adjacent
     val rangeDown = range - 1
     return getAdjacentByRange(adjacent, direction, rangeDown)
+  }
+
+  def getOtherAdjacents(originId: Int, range: Int, rangeDown: Int): Set[Int] = {
+    val adjacents = Set(
+      getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.RIGHT, rangeDown),
+      getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.LEFT, rangeDown),
+      getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.UP, rangeDown),
+      getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, rangeDown),
+      getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.LEFT, rangeDown),
+      getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.RIGHT, rangeDown),
+      getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.DOWN, rangeDown),
+      getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP, rangeDown))
+    if (rangeDown == 1) return adjacents
+    return adjacents ++ getOtherAdjacents(originId, range, range - 1)
   }
 
   object Direction extends Enumeration {
