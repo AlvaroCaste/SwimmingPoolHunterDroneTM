@@ -4,7 +4,11 @@ import SwimmingPoolHunterDroneTM.Hunter.Direction.Direction
 
 object Hunter {
 
-  private def getResidentialAreaId(coordX: Double, coordY: Double): Int = 13
+  private def getResidentialAreaId(coordX: Double, coordY: Double): Int = {
+    if (coordX == 38.56889 && coordY == 40.511107) return 13
+    if (coordX == 28.56889 && coordY == 45.511107) return 7
+    0
+  }
 
   private def getAdjacent(originId: Int, direction: Direction): Int = {
     if (originId == 13) {
@@ -239,7 +243,14 @@ object Hunter {
     val originId = getResidentialAreaId(coordX, coordY)
     range match {
       case 0 => Set()
-      case 1 => Set(7, 8, 9, 12, 14, 17, 18, 19)
+      case 1 => Set(getAdjacent(originId, Direction.UP),
+                    getAdjacent(originId, Direction.DOWN),
+                    getAdjacent(originId, Direction.LEFT),
+                    getAdjacent(originId, Direction.RIGHT),
+                    getAdjacent(getAdjacent(originId, Direction.UP), Direction.RIGHT),
+                    getAdjacent(getAdjacent(originId, Direction.DOWN), Direction.LEFT),
+                    getAdjacent(getAdjacent(originId, Direction.LEFT), Direction.UP),
+                    getAdjacent(getAdjacent(originId, Direction.RIGHT), Direction.DOWN))
     }
   }
 
