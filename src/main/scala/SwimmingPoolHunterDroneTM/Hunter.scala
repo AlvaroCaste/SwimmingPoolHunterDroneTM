@@ -235,7 +235,13 @@ object Hunter {
     return 0
   }
 
-  def getAllResidentialAreaInARange(coordX: Double, coordY: Double, range: Int): List[Int] = List()
+  def getAllResidentialAreaInARange(coordX: Double, coordY: Double, range: Int): Set[Int] = {
+    val originId = getResidentialAreaId(coordX, coordY)
+    range match {
+      case 0 => Set()
+      case 1 => Set(7, 8, 9, 12, 14, 17, 18, 19)
+    }
+  }
 
   object Direction extends Enumeration {
     type Direction = Value
