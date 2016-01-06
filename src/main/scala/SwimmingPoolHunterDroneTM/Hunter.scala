@@ -240,41 +240,33 @@ object Hunter {
   }
 
   def getAllResidentialAreaInARange(coordX: Double, coordY: Double, range: Int): Set[Int] = {
+    if (range == 0) return Set()
     val originId = getResidentialAreaId(coordX, coordY)
+    val adjacents: Set[Int] = Direction.values.map(getAdjacentByRange(originId, _, range)).toSet
     range match {
-      case 0 => Set()
       case 1 => {
-        Set(getAdjacentByRange(originId, Direction.UP, range),
-          getAdjacentByRange(originId, Direction.DOWN, range),
-          getAdjacentByRange(originId, Direction.LEFT, range),
-          getAdjacentByRange(originId, Direction.RIGHT, range),
-
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.RIGHT, range),
+        adjacents ++
+        Set(getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.RIGHT, range),
           getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.LEFT, range),
           getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range),Direction.UP, range),
           getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range))
       }
       case 2 => {
-        Set(getAdjacentByRange(originId, Direction.UP, range),
-          getAdjacentByRange(originId, Direction.DOWN, range),
-          getAdjacentByRange(originId, Direction.LEFT, range),
-          getAdjacentByRange(originId, Direction.RIGHT, range),
+        adjacents ++
+          Set(getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.UP, range),
+            getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.DOWN, range),
+            getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP, range),
+            getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range),
 
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.UP, range),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range),  Direction.DOWN, range),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP, range),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range),
+            getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.RIGHT, range - 1),
+            getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.LEFT, range - 1),
+            getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.UP, range - 1),
+            getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range - 1),
 
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.RIGHT, range - 1),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.LEFT, range - 1),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range),Direction.UP, range - 1),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.DOWN, range - 1),
-
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.LEFT, range - 1),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.RIGHT, range - 1),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.DOWN, range - 1),
-          getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP, range - 1)
-        )
+            getAdjacentByRange(getAdjacentByRange(originId, Direction.UP, range), Direction.LEFT, range - 1),
+            getAdjacentByRange(getAdjacentByRange(originId, Direction.DOWN, range), Direction.RIGHT, range - 1),
+            getAdjacentByRange(getAdjacentByRange(originId, Direction.LEFT, range), Direction.DOWN, range - 1),
+            getAdjacentByRange(getAdjacentByRange(originId, Direction.RIGHT, range), Direction.UP, range - 1))
       }
     }
   }
