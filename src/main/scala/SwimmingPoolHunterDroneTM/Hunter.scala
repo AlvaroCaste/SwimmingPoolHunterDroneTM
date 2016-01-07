@@ -4,9 +4,9 @@ import SwimmingPoolHunterDroneTM.Hunter.Direction.Direction
 
 object Hunter {
 
-  private def getResidentialAreaId(coordX: Double, coordY: Double): Int = 13
+  def getResidentialAreaId(coordX: Double, coordY: Double): Int = 13
 
-  private def getAdjacent(originId: Int, direction: Direction): Int = {
+  def getAdjacent(originId: Int, direction: Direction): Int = {
     if (originId == 13) {
       direction match {
         case Direction.UP => return 8
@@ -454,6 +454,14 @@ object Hunter {
   object Direction extends Enumeration {
     type Direction = Value
     val UP, DOWN, LEFT, RIGHT = Value
+    def getOpposite(direction: Direction): Value = {
+      direction match {
+        case UP => DOWN
+        case DOWN => UP
+        case LEFT => RIGHT
+        case RIGHT => LEFT
+      }
+    }
   }
 
 }
